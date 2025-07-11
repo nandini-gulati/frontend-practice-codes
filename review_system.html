@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Review System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 60%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px gray;
+            border-radius: 10px;
+        }
+        .hotel {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+        }
+        .hotel img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .address {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        .star {
+            font-size: 25px;
+            cursor: pointer;
+            color: gray;
+        }
+        .star.selected {
+            color: gold;
+        }
+        textarea {
+            width: 100%;
+            height: 80px;
+            margin-top: 10px;
+            padding: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .reviews {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Hotel Review System</h2>
+        <div id="hotelsList"></div>
+    </div>
+
+    <script>
+        const hotels = [
+            { name: "The Ashok, New Delhi", address: "50-B, Diplomatic Enclave, Chanakyapuri, Chanakyapuri, 110021 New Delhi, India", image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/44025013.jpg?k=1e2b5171367e89d56c7ec712078b879fa7e76d5b0edc29f7e06c4644ed552377&o=", description: "Located in the capital city of India, The Ashok offers a host of facilities such as an outdoor swimming pool, spa and wellness centre and a fitness centre. Free WiFi access is available.", price: "INR 9,000" },
+            { name: "Hotel Luxury Villa Near Delhi Airpor", address: "Terminal 1, 110037 New Delhi, India", image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/664647836.jpg?k=09bf1343386b13cfde08bc365f0b556897d4c9b29cfa5f2436830493512323ea&o=", description: "Set in New Delhi, 11 km from Rashtrapati Bhavan, Hotel Luxury Villa Near Delhi Airport offers accommodation with a shared lounge, free private parking, a terrace and a restaurant. This 4-star hotel offers an ATM and a concierge service. The accommodation features room service, a 24-hour front desk and currency exchange for guests.", price: "INR 6,000" },
+            { name: "The Hosteller Delhi", address: "A-10, Mathura Rd, Near Ashram Chowk Block A, Friends Colony East, New Friends Colony,, South Delhi, New Delhi and NCR, India, 110065", image: "https://pix8.agoda.net/hotelImages/17030474/-1/56ddff690c07790d253a9a513752e43b.jpg?ce=0&s=1024x", description: "The Hosteller Delhi features a vibrant rooftop café with stunning views, themed events, daily activities, and unique art installations. Cozy hideaways offer peaceful retreats, blending fun and relaxation in the city center. Located in South Delhi, The Hosteller Delhi is perfect for two travelers exploring the city's charm and culture. Close to landmarks like the Lotus Temple, ISKCON Temple, and Delhi Haat, it offers air-conditioned rooms with WiFi, in-room safes, and fresh toiletries. Guests can enjoy meals at the in-house restaurant and book local tours via concierge services. Nearby parks and markets like Select Citywalk provide a balanced mix of leisure and adventure, making it an ideal Delhi getaway.", price: "INR 4,000" },
+            { name: "DM 45 near Huda City Centre", address: "Block A, Greenwood City, Sector 45, DM 45 - Millenium city center, Gurgaon, New Delhi and NCR, India, 122003", image: "https://pix8.agoda.net/hotelImages/59257847/0/e5ea63769cfb0bf85c4ffd68c04353a1.jpeg?ce=0&s=1024x", description: "Get your trip off to a great start with a stay at this property, which offers free Wi-Fi in all rooms. Conveniently situated in the Gurgaon part of New Delhi and NCR, this property puts you close to attractions and interesting dining options.", price: "INR 7,000" },
+            { name: "Westend Inn", address: "NH - 8 Adjoining Shiv Murti Rangpuri Mahipalpur, Indira Gandhi Int'l Airport, New Delhi and NCR, India, 110037", image: "https://pix8.agoda.net/hotelImages/2599397/0/8b668d0d82bb09d75b0d035660285eb2.jpeg?ce=0&s=1024x", description: "Westend Inn is a modern and stylish hotel near Indira Gandhi International Airport, perfect for two travelers. Enjoy convenient access to the airport and explore New Delhi. Indulge in luxury facilities like a chic bar, delightful restaurant, and rejuvenating indoor pool. Stay in air-conditioned rooms with complimentary Wi-Fi and a private safe. Take in garden views from select rooms and refresh in the ensuite shower. Easily access transportation and shopping to explore the city. Delight in delectable cuisine at the restaurant and start your day with a complimentary breakfast. Experience comfort, convenience, and charm at Westend Inn", price: "INR 10,000" }
+        ];
+        
+        const hotelsList = document.getElementById("hotelsList");
+
+        hotels.forEach(hotel => {
+            let hotelDiv = document.createElement("div");
+            hotelDiv.classList.add("hotel");
+            hotelDiv.innerHTML = `
+                <h3>${hotel.name}</h3>
+                <p class='address'>${hotel.address}</p>
+                <img src="${hotel.image}" alt="${hotel.name}">
+                <p><strong>Description:</strong> ${hotel.description}</p>
+                <p><strong>Price:</strong> ${hotel.price}</p>
+            `;
+            
+            let starContainer = document.createElement("div");
+            starContainer.classList.add("stars");
+            
+            let selectedRating = 0;
+            
+            for (let i = 1; i <= 7; i++) {
+                let star = document.createElement("span");
+                star.classList.add("star");
+                star.innerHTML = "★";
+                star.setAttribute("data-rating", i);
+                star.addEventListener("click", function () {
+                    selectedRating = i;
+                    updateStars(starContainer, i);
+                });
+                starContainer.appendChild(star);
+            }
+            
+            let reviewInput = document.createElement("textarea");
+            reviewInput.placeholder = "Write your review here...";
+            
+            let submitBtn = document.createElement("button");
+            submitBtn.textContent = "Submit Review";
+            submitBtn.addEventListener("click", function () {
+                submitReview(hotel.name, selectedRating, reviewInput.value);
+                reviewInput.value = "";
+                updateStars(starContainer, 0);
+                selectedRating = 0;
+            });
+            
+            let reviewsDiv = document.createElement("div");
+            reviewsDiv.classList.add("reviews");
+            reviewsDiv.setAttribute("id", `reviews-${hotel.name}`);
+            
+            hotelDiv.appendChild(starContainer);
+            hotelDiv.appendChild(reviewInput);
+            hotelDiv.appendChild(submitBtn);
+            hotelDiv.appendChild(reviewsDiv);
+            
+            hotelsList.appendChild(hotelDiv);
+        });
+
+        function updateStars(container, rating) {
+            container.querySelectorAll(".star").forEach(star => {
+                star.classList.remove("selected");
+                if (parseInt(star.getAttribute("data-rating")) <= rating) {
+                    star.classList.add("selected");
+                }
+            });
+        }
+
+        function submitReview(hotel, rating, text) {
+            if (rating === 0 || text.trim() === "") {
+                alert("Please select a rating and write a review.");
+                return;
+            }
+            
+            let reviewsDiv = document.getElementById(`reviews-${hotel}`);
+            let reviewDiv = document.createElement("div");
+            reviewDiv.innerHTML = `<strong>${"★".repeat(rating)}</strong> - ${text}`;
+            reviewsDiv.prepend(reviewDiv);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Review Form</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .review-box {
+      background: #ffe0e9cc;
+      backdrop-filter: blur(8px);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 900px;
+      transition: 0.3s;
+    }
+
+    .review-box:hover {
+      box-shadow: 0 0 25px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    .form-group {
+      flex: 1 1 45%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full-width {
+      flex: 1 1 100%;
+    }
+
+    label {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #fdf2f8;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .stars {
+      display: flex;
+      justify-content: left;
+      margin: 10px 0;
+    }
+
+    .star {
+      font-size: 24px;
+      cursor: pointer;
+      color: #ccc;
+      margin: 0 3px;
+      transition: 0.2s;
+    }
+
+    .star:hover, .star.selected {
+      color: gold;
+      transform: scale(1.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #ff7eb3, #ff758c);
+    }
+
+    .submitted-reviews {
+      margin-top: 20px;
+    }
+
+    .submitted-reviews div {
+      background: #ffe5ec;
+      padding: 10px;
+      border-left: 5px solid #f06292;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="review-box">
+    <h2>Teacher Review Form</h2>
+    <form id="reviewForm">
+      <div class="form-group">
+        <label for="teacherName">Teacher's Name</label>
+        <input type="text" id="teacherName" placeholder="Enter teacher's full name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" placeholder="Subject taught" required />
+      </div>
+
+      <div class="form-group">
+        <label for="yourName">Your Name</label>
+        <input type="text" id="yourName" placeholder="Enter your name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" required />
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" required>
+          <option value="">Select Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="example@example.com" required />
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number</label>
+        <input type="tel" id="mobile" placeholder="Enter your mobile number" required />
+      </div>
+
+      <div class="form-group full-width">
+        <label>Rating</label>
+        <div class="stars" id="ratingStars"></div>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="review">Your Feedback About the Teacher</label>
+        <textarea id="review" rows="4" placeholder="Write your feedback here..." required></textarea>
+      </div>
+
+      <div class="form-group full-width">
+        <button type="button" onclick="submitTeacherReview()">Submit Review</button>
+      </div>
+    </form>
+
+    <div class="submitted-reviews" id="submittedReviews"></div>
+  </div>
+
+  <script>
+    const starsContainer = document.getElementById("ratingStars");
+    let selectedRating = 0;
+
+    for (let i = 1; i <= 7; i++) {
+      const star = document.createElement("span");
+      star.innerHTML = "★";
+      star.classList.add("star");
+      star.dataset.rating = i;
+      star.onclick = () => {
+        selectedRating = i;
+        updateStarDisplay(i);
+      };
+      starsContainer.appendChild(star);
+    }
+
+    function updateStarDisplay(rating) {
+      document.querySelectorAll(".star").forEach(star => {
+        star.classList.remove("selected");
+        if (parseInt(star.dataset.rating) <= rating) {
+          star.classList.add("selected");
+        }
+      });
+    }
+
+    function submitTeacherReview() {
+      const teacherName = document.getElementById("teacherName").value.trim();
+      const subject = document.getElementById("subject").value.trim();
+      const yourName = document.getElementById("yourName").value.trim();
+      const dob = document.getElementById("dob").value;
+      const gender = document.getElementById("gender").value;
+      const email = document.getElementById("email").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const review = document.getElementById("review").value.trim();
+
+      if (!teacherName || !subject || !yourName || !dob || !gender || !email || !mobile || !review || selectedRating === 0) {
+        alert("Please complete all fields and select a rating.");
+        return;
+      }
+
+      const reviewContainer = document.getElementById("submittedReviews");
+      const reviewDiv = document.createElement("div");
+      reviewDiv.innerHTML = `
+        <strong>${yourName}</strong> (${email})<br>
+        Gender: ${gender} | DOB: ${dob} | Mobile: ${mobile}<br>
+        <strong>Teacher: ${teacherName} (${subject})</strong><br>
+        Rating: ${"★".repeat(selectedRating)}<br>
+        <em>${review}</em>
+      `;
+      reviewContainer.prepend(reviewDiv);
+
+      document.getElementById("reviewForm").reset();
+      selectedRating = 0;
+      updateStarDisplay(0);
+    }
+  </script>
+</body>
+</html>

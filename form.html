@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxlHtAfuaHU1vLsQKc788pMQ7y0enEa9D8Xw&s') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;  /* Increased width */
+            max-width: 90%;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container input {
+            width: 95%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #28782c;
+        }
+
+        .form-container input:focus,
+        .form-container button:focus {
+            outline: none;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <form id="signupForm" onsubmit="showAlert(event)">
+            <h2>Sign Up Form</h2>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required pattern="[a-zA-Z ]+" title="Only letters and spaces are allowed">
+            <input type="email" id="email" name="email" placeholder="Enter your email (example@gmail.com)" required pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$" title="Email must be a valid Gmail address">
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="\d{10}" title="Phone number must be 10 digits long">
+            <input type="date" id="date" name="date" required min="2005-01-01" max="2025-01-24">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function showAlert(event) {
+            event.preventDefault(); 
+            alert('Form submitted successfully!');
+        }
+    </script>
+</body>
+</html>
