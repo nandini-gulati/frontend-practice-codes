@@ -1,7 +1,7 @@
 # 🌐 Frontend Projects Collection
 
 Welcome to my **Frontend Development Projects** repository!  
-This collection includes the web-based mini-projects and practice exercises I built during my first year of B.Tech at **UPES** while learning HTML, CSS, and JavaScript. These projects helped me strengthen my skills in frontend design, interactivity, and responsive development.
+This collection includes the web-based mini-projects and practice exercises I built during my B.Tech at **UPES** while learning HTML, CSS, and JavaScript. These projects helped me strengthen my skills in frontend design, interactivity, and responsive development.
 
 ---
 
